@@ -1,45 +1,51 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ChatApp UI</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>ChatApp</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="app-header" role="banner">
-    <button class="icon-btn js-nav" aria-label="Toggle sidebar" aria-expanded="false">
-      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 6h18M3 12h14M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <button class="icon-btn js-nav" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h14M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
     </button>
+
     <div class="brand">
-      <span class="badge">Frontend • Developer</span>
+      <span class="badge" aria-label="Role">Frontend • Developer</span>
       <h1 class="title">ChatApp</h1>
     </div>
+
     <div class="header-actions">
       <button class="pill-btn primary js-new-chat">New Chat</button>
-      <button class="icon-btn" aria-label="Search">
-        <svg width="20" height="20" viewBox="0 0 24 24"><path d="m21 21-4.3-4.3m1.8-4.7a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-      </button>
+      <div class="search">
+        <input type="search" placeholder="Search…" aria-label="Search chats and messages" />
+        <button class="icon-btn" aria-label="Run search">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3m1.8-4.7a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </button>
+      </div>
       <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt="You" />
     </div>
   </header>
 
   <main class="app-shell">
-    <aside class="sidebar" aria-label="Conversations">
+    <aside id="sidebar" class="sidebar" aria-label="Conversations">
       <div class="sidebar-section">
         <h2 class="section-title">Chats</h2>
-        <ul class="chat-list" role="listbox" aria-label="Chat threads">
-          <li class="chat-item active" data-thread="general">
+        <ul class="chat-list" role="listbox" aria-label="Chat threads" tabindex="0">
+          <li class="chat-item active" data-thread="general" role="option" aria-selected="true" tabindex="-1">
             <div class="chat-item-title">General</div>
             <div class="chat-item-sub">Last message 2m ago</div>
+            <div class="chat-item-meta"><span class="pill unread">3</span></div>
           </li>
-          <li class="chat-item" data-thread="design">
-            <div class="chat-item-title">Design Team</div>
-            <div class="chat-item-sub">New: Color tokens</div>
+          <li class="chat-item" data-thread="assistant" role="option" aria-selected="false" tabindex="-1">
+            <div class="chat-item-title">Assistant</div>
+            <div class="chat-item-sub">Try: “Summarize design notes”</div>
           </li>
-          <li class="chat-item" data-thread="field">
+          <li class="chat-item" data-thread="field" role="option" aria-selected="false" tabindex="-1">
             <div class="chat-item-title">Field Ops (50km)</div>
             <div class="chat-item-sub">Mesh link status</div>
           </li>
@@ -49,8 +55,8 @@
       <div class="sidebar-section">
         <h2 class="section-title">Pinned</h2>
         <div class="pin-list">
-          <button class="chip">Product Brief</button>
-          <button class="chip">Specs v2</button>
+          <button class="chip" aria-pressed="false">Product Brief</button>
+          <button class="chip" aria-pressed="false">Specs v2</button>
         </div>
       </div>
     </aside>
@@ -58,52 +64,101 @@
     <section class="chat-area" aria-live="polite">
       <header class="chat-header">
         <div class="thread-meta">
-          <h2 class="thread-title">General</h2>
-          <div class="presence">
-            <span class="dot online"></span> 8 online
-          </div>
+          <h2 class="thread-title">Assistant</h2>
+          <div class="presence"><span class="dot online"></span> Live</div>
         </div>
         <div class="thread-actions">
-          <button class="pill-btn subtle">Add Member</button>
-          <button class="pill-btn subtle">Files</button>
+          <button class="pill-btn subtle js-clear">Clear</button>
+          <button class="pill-btn subtle js-export">Export</button>
+          <button class="pill-btn subtle">Settings</button>
         </div>
       </header>
 
-      <div class="messages" id="messages">
+      <!-- Assistant persona banner -->
+      <div class="assistant-banner" role="note">
+        <img src="https://i.pravatar.cc/40?img=68" alt="Assistant" class="avatar" />
+        <div class="banner-text">
+          <div class="banner-title">Assistant</div>
+          <div class="banner-sub">Quick suggestions to get started</div>
+        </div>
+        <div class="suggestions">
+          <button class="sugg">Summarize design notes</button>
+          <button class="sugg">Generate color tokens</button>
+          <button class="sugg">Draft release update</button>
+        </div>
+      </div>
+
+      <div id="messages" class="messages" role="log" aria-live="polite" aria-relevant="additions text">
         <div class="msg day-sep"><span>Today</span></div>
 
-        <article class="msg">
-          <img class="avatar" src="https://i.pravatar.cc/40?img=31" alt="Aarav" />
-          <div class="bubble">
-            <div class="meta">
-              <span class="name">Aarav</span>
-              <time>16:21</time>
+        <!-- Assistant message with code and actions -->
+        <section class="group">
+          <div class="msg">
+            <img class="avatar" src="https://i.pravatar.cc/40?img=68" alt="Assistant" />
+            <div class="bubble with-actions">
+              <div class="meta">
+                <span class="name">Assistant</span>
+                <time>16:50</time>
+              </div>
+              <p>Here’s a quick token setup. Paste into your CSS:</p>
+              <pre class="code"><code>:root{ --brand:#4F8BFF; --teal:#22D3EE; --accent:#FF7A59; }</code></pre>
+              <div class="bubble-actions">
+                <button class="icon-btn xs js-copy" aria-label="Copy message">📋</button>
+                <button class="icon-btn xs">👍</button>
+                <button class="icon-btn xs">👎</button>
+                <button class="icon-btn xs">⋯</button>
+              </div>
             </div>
-            <p>Kicked off the UI refresh. Using bright accents, higher contrast, and better mobile layout.</p>
           </div>
-        </article>
+        </section>
 
-        <article class="msg me">
-          <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt="You" />
-          <div class="bubble">
-            <div class="meta">
-              <span class="name">You</span>
-              <time>16:24</time>
+        <!-- You -->
+        <section class="group me">
+          <div class="msg">
+            <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt="You" />
+            <div class="bubble">
+              <div class="meta">
+                <span class="name">You</span>
+                <time>16:54</time>
+              </div>
+              <p>Make labels larger and brighten accents.</p>
+              <div class="status"><span class="tick sent delivered read"></span></div>
             </div>
-            <p>Great—let’s keep blue labels prominent and drop the theme toggle.</p>
           </div>
-        </article>
+        </section>
+      </div>
+
+      <!-- Typing indicator with avatar -->
+      <div class="typing typing-banner">
+        <img class="avatar" src="https://i.pravatar.cc/40?img=68" alt="Assistant" />
+        <div class="dots">
+          <span class="dot-el"></span><span class="dot-el"></span><span class="dot-el"></span>
+        </div>
+        <span class="typing-text">Assistant is typing…</span>
       </div>
 
       <footer class="composer">
         <div class="tools">
-          <button class="icon-btn" aria-label="Attach">
-            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M21.44 11.05 12 20.49a6 6 0 0 1-8.49-8.49l9.43-9.44a4 4 0 0 1 5.66 5.66L9.17 17.25a2 2 0 0 1-2.83-2.83l8.13-8.13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
-          <button class="icon-btn" aria-label="Emoji">
-            <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="10" r="1.5"/><path d="M8 15c1.2 1 2.6 1.5 4 1.5S14.8 16 16 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-          </button>
+          <button class="icon-btn js-attach" aria-haspopup="dialog" aria-expanded="false" aria-controls="attach-pop">📎</button>
+          <div id="attach-pop" class="sheet" role="dialog" aria-modal="false" aria-label="Attach menu">
+            <button class="sheet-item">Photo</button>
+            <button class="sheet-item">File</button>
+            <button class="sheet-item">Location</button>
+          </div>
+
+          <button class="icon-btn js-emoji" aria-haspopup="dialog" aria-expanded="false" aria-controls="emoji-pop">😊</button>
+          <div id="emoji-pop" class="sheet" role="dialog" aria-modal="false" aria-label="Emoji menu">
+            <div class="emoji-grid" role="grid">
+              <button class="emoji">😀</button>
+              <button class="emoji">🔥</button>
+              <button class="emoji">🚀</button>
+              <button class="emoji">🎯</button>
+              <button class="emoji">💡</button>
+              <button class="emoji">❤️</button>
+            </div>
+          </div>
         </div>
+
         <form id="send-form" class="send" autocomplete="off">
           <input id="message-input" type="text" placeholder="Type a message…" aria-label="Message" />
           <button class="pill-btn primary" type="submit">Send</button>
@@ -115,10 +170,11 @@
       <div class="details-inner">
         <h3>Thread Info</h3>
         <ul class="info-list">
-          <li><span class="label">Members</span><span>12</span></li>
-          <li><span class="label">Files</span><span>28</span></li>
-          <li><span class="label">Created</span><span>Aug 2025</span></li>
+          <li><span class="label">Members</span><span>2</span></li>
+          <li><span class="label">Files</span><span>3</span></li>
+          <li><span class="label">Created</span><span>Nov 2025</span></li>
         </ul>
+
         <h4>Shortcuts</h4>
         <div class="quick-actions">
           <button class="pill-btn subtle full">Mark all read</button>
@@ -127,6 +183,9 @@
       </div>
     </aside>
   </main>
+
+  <!-- Toast -->
+  <div class="toast" role="status" aria-live="polite"></div>
 
   <script src="app.js"></script>
 </body>
