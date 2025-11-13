@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ChatApp UI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header" role="banner">
+    <button class="icon-btn js-nav" aria-label="Toggle sidebar" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 6h18M3 12h14M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+    <div class="brand">
+      <span class="badge">Frontend • Developer</span>
+      <h1 class="title">ChatApp</h1>
+    </div>
+    <div class="header-actions">
+      <button class="pill-btn primary js-new-chat">New Chat</button>
+      <button class="icon-btn" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="m21 21-4.3-4.3m1.8-4.7a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      </button>
+      <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt="You" />
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="sidebar" aria-label="Conversations">
+      <div class="sidebar-section">
+        <h2 class="section-title">Chats</h2>
+        <ul class="chat-list" role="listbox" aria-label="Chat threads">
+          <li class="chat-item active" data-thread="general">
+            <div class="chat-item-title">General</div>
+            <div class="chat-item-sub">Last message 2m ago</div>
+          </li>
+          <li class="chat-item" data-thread="design">
+            <div class="chat-item-title">Design Team</div>
+            <div class="chat-item-sub">New: Color tokens</div>
+          </li>
+          <li class="chat-item" data-thread="field">
+            <div class="chat-item-title">Field Ops (50km)</div>
+            <div class="chat-item-sub">Mesh link status</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <h2 class="section-title">Pinned</h2>
+        <div class="pin-list">
+          <button class="chip">Product Brief</button>
+          <button class="chip">Specs v2</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="chat-area" aria-live="polite">
+      <header class="chat-header">
+        <div class="thread-meta">
+          <h2 class="thread-title">General</h2>
+          <div class="presence">
+            <span class="dot online"></span> 8 online
+          </div>
+        </div>
+        <div class="thread-actions">
+          <button class="pill-btn subtle">Add Member</button>
+          <button class="pill-btn subtle">Files</button>
+        </div>
+      </header>
+
+      <div class="messages" id="messages">
+        <div class="msg day-sep"><span>Today</span></div>
+
+        <article class="msg">
+          <img class="avatar" src="https://i.pravatar.cc/40?img=31" alt="Aarav" />
+          <div class="bubble">
+            <div class="meta">
+              <span class="name">Aarav</span>
+              <time>16:21</time>
+            </div>
+            <p>Kicked off the UI refresh. Using bright accents, higher contrast, and better mobile layout.</p>
+          </div>
+        </article>
+
+        <article class="msg me">
+          <img class="avatar" src="https://i.pravatar.cc/40?img=12" alt="You" />
+          <div class="bubble">
+            <div class="meta">
+              <span class="name">You</span>
+              <time>16:24</time>
+            </div>
+            <p>Great—let’s keep blue labels prominent and drop the theme toggle.</p>
+          </div>
+        </article>
+      </div>
+
+      <footer class="composer">
+        <div class="tools">
+          <button class="icon-btn" aria-label="Attach">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M21.44 11.05 12 20.49a6 6 0 0 1-8.49-8.49l9.43-9.44a4 4 0 0 1 5.66 5.66L9.17 17.25a2 2 0 0 1-2.83-2.83l8.13-8.13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <button class="icon-btn" aria-label="Emoji">
+            <svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="9" cy="10" r="1.5"/><circle cx="15" cy="10" r="1.5"/><path d="M8 15c1.2 1 2.6 1.5 4 1.5S14.8 16 16 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <form id="send-form" class="send" autocomplete="off">
+          <input id="message-input" type="text" placeholder="Type a message…" aria-label="Message" />
+          <button class="pill-btn primary" type="submit">Send</button>
+        </form>
+      </footer>
+    </section>
+
+    <aside class="details">
+      <div class="details-inner">
+        <h3>Thread Info</h3>
+        <ul class="info-list">
+          <li><span class="label">Members</span><span>12</span></li>
+          <li><span class="label">Files</span><span>28</span></li>
+          <li><span class="label">Created</span><span>Aug 2025</span></li>
+        </ul>
+        <h4>Shortcuts</h4>
+        <div class="quick-actions">
+          <button class="pill-btn subtle full">Mark all read</button>
+          <button class="pill-btn subtle full">Mute for 1 hour</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
